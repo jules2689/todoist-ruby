@@ -21,7 +21,8 @@ module Todoist
       TODOIST_QUICK_ADD_COMMAND = "/quick/add",
       TODOIST_ACTIVITY_GET_COMMAND = "/activity/get",
       TODOIST_BACKUPS_GET_COMMAND = "/backups/get",
-      TODOIST_USER_LOGIN_COMMAND = "/user/login"
+      TODOIST_USER_LOGIN_COMMAND = "/user/login",
+      TODOIST_SECTIONS_GET_COMMAND = "/sections/get"
     ]
 
     # Map of commands to URIs
