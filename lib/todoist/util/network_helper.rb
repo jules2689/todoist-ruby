@@ -9,7 +9,9 @@ module Todoist
   module Util
     class NetworkHelper
 
-      
+      NetworkError = Class.new(StandardError)
+      ClientError = Class.new(NetworkError)
+      ServerError = Class.new(NetworkError)
 
       def initialize(client)
         @client = client
@@ -67,21 +69,21 @@ module Todoist
               return response.body
             end
           when 400
-            raise StandardError, "HTTP 400 Error - The request was incorrect."
+            raise ClientError, "HTTP 400 Error - The request was incorrect."
           when 401
-            raise StandardError, "HTTP 401 Error - Authentication is required, and has failed, or has not yet been provided."
+            raise ClientError, "HTTP 401 Error - Authentication is required, and has failed, or has not yet been provided."
           when 403
-            raise StandardError, "HTTP 403 Error - The request was valid, but for something that is forbidden."
+            raise ClientError, "HTTP 403 Error - The request was valid, but for something that is forbidden."
           when 404
-            raise StandardError, "HTTP 404 Error - The requested resource could not be found."
+            raise ClientError, "HTTP 404 Error - The requested resource could not be found."
           when 429
             puts("Encountered 429 - retry after #{retry_after_secs}")
             sleep(retry_after_secs)
             retry_after_secs *= Todoist::Config.retry_time
           when 500
-            raise StandardError, "HTTP 500 Error - The request failed due to a server error."
+            raise ServerError, "HTTP 500 Error - The request failed due to a server error."
           when 503
-            raise StandardError, "HTTP 503 Error - The server is currently unable to handle the request."
+            raise ServerError, "HTTP 503 Error - The server is currently unable to handle the request."
           end
         end
         
